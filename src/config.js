@@ -1,6 +1,5 @@
 export const ROUTES = {
   HOME: '/',
-  STAFF_DIRECTORY: '/staff-directory',
-  REGISTER_EMPLOYEE: '/register-employee',
+  EMPLOYEE_LIST: '/employee-list',
   NOT_FOUND: '/not-found',
 }
