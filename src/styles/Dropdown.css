@@ -1,0 +1,55 @@
+.dropdown ul {
+  @apply max-h-60 overflow-y-auto flex flex-col p-4 rounded-md;
+}
+
+.dropdown div {
+  @apply flex items-center;
+}
+
+.dropdown button {
+  @apply border-3 border-custom-gray-200;
+}
+
+.dropdown button span {
+  @apply font-medium text-custom-gray-900;
+}
+
+.dropdown label {
+  @apply text-custom-gray-900;
+}
+
+.dropdown .border-gray-900 {
+  @apply border-b-custom-green-300 border-x-custom-green-300 !important;
+}
+
+.dropdown .before\:border-gray-900::before {
+  @apply border-custom-green-300 border-t-3 !important;
+}
+
+.dropdown .before\:transition-all::before {
+  @apply h-3 border-custom-gray-200 border-t-2;
+}
+
+.dropdown .after\:border-gray-900::after {
+  @apply border-custom-green-300 border-t-3 !important;
+}
+
+.dropdown .after\:transition-all::after {
+  @apply h-3 border-custom-gray-200 border-t-2;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  @apply bg-white;
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+  -webkit-text-fill-color: #000000 !important;
+}
+
+input:-moz-autofill,
+input:-moz-autofill:hover,
+input:-moz-autofill:focus,
+input:-moz-autofill:active {
+  background: white !important;
+}

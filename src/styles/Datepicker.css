@@ -1,0 +1,50 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+.react-datepicker-wrapper {
+  @apply w-full;
+}
+
+.react-datepicker__input-container input {
+  @apply text-sm border-3 border-custom-gray-200 rounded-md outline-none focus:ring-custom-green-300 focus:border-custom-green-300 block w-full px-2.5 py-3;
+}
+
+.react-datepicker__header {
+  @apply bg-custom-green-300 font-bold !important;
+}
+
+.react-datepicker__current-month {
+  @apply hidden;
+}
+
+.react-datepicker__month-read-view,
+.react-datepicker__year-read-view {
+  @apply visible !important;
+}
+
+.react-datepicker__day.react-datepicker__day--today {
+  @apply font-extrabold;
+}
+.react-datepicker__day.react-datepicker__day--selected,
+.react-datepicker__day.react-datepicker__day--keyboard-selected {
+  @apply bg-custom-green-300 text-black font-extrabold rounded-md;
+}
+
+.react-datepicker__day--outside-month {
+  @apply text-gray-400 !important;
+}
+
+.react-datepicker__navigation.react-datepicker__navigation--years.react-datepicker__navigation--years-previous {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='50' height='50' viewBox='0 0 50 50'><polyline points='10,15 25,35 40,15' stroke='%23282828' stroke-width='8' fill='none' /></svg>");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 1rem;
+}
+
+.react-datepicker__navigation.react-datepicker__navigation--years.react-datepicker__navigation--years-upcoming {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='50' height='50' viewBox='0 0 50 50'><polyline points='10,35 25,15 40,35' stroke='%23282828' stroke-width='8' fill='none' /></svg>");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 1rem;
+}
