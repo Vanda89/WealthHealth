@@ -2,33 +2,24 @@ import React, { useState, useEffect } from 'react'
 import FloatingLabel from '../../components/FloatingLabel'
 import DatePicker from '../../components/Datepicker'
 import Dropdown from '../../components/Dropdown'
-import FormatData from '../../utils/formatData'
 import { Select, Option } from '@material-tailwind/react'
-import { data } from '../../utils/dropdownData'
+import { useSelector, useDispatch } from 'react-redux'
+import { addUser } from '../../store/slices/userSlice'
 
-export default function RegisterForm() {
-  const statesData = data.states
-  const formatData = new FormatData(statesData)
-  const statesNames = formatData.formatStatesNames()
-
-  const departmentsData = data.departments
-
+export default function RegisterForm({ dropdownData }) {
+  const dispatch = useDispatch()
   const [formData, setFormData] = useState({
-    firstname: '',
-    lastname: '',
+    firstName: '',
+    lastName: '',
     startDate: '',
     dateOfBirth: '',
     street: '',
     city: '',
-    stateSelected: '',
-    zipcode: '',
-    departmentSelected: '',
+    state: '',
+    zipCode: '',
+    department: '',
     errors: {},
   })
-
-  useEffect(() => {
-    console.log(formData)
-  }, [formData])
 
   const handleFieldChange = (e, fieldName) => {
     const { name, value } = e.target || { name: fieldName, value }
@@ -43,59 +34,55 @@ export default function RegisterForm() {
   }
   const validateForm = (formData) => {
     const errors = {}
-
-    if (!formData.firstname) {
-      errors.firstname = 'First name is required'
+    if (!formData.firstName) {
+      errors.firstName = 'First name is required'
     }
-
-    if (!formData.lastname) {
-      errors.lastname = 'Last name is required'
+    if (!formData.lastName) {
+      errors.lastName = 'Last name is required'
     }
-
     if (!formData.startDate) {
       errors.startDate = 'Date of contrat beginning is required'
     }
-
     if (!formData.dateOfBirth) {
       errors.dateOfBirth = 'Date of birth is required'
     }
-
     if (!formData.street) {
       errors.street = 'Street is required'
     }
-
     if (!formData.city) {
       errors.city = 'City is required'
     }
-
-    if (!formData.stateSelected) {
-      errors.stateSelected = 'State is required'
+    if (!formData.state) {
+      errors.state = 'State is required'
     }
-
-    if (!formData.zipcode) {
-      errors.zipcode = 'Zipcode is required'
+    if (!formData.zipCode) {
+      errors.zipCode = 'ZipCode is required'
     }
-
-    if (!formData.departmentSelected) {
-      errors.departmentSelected = 'Department is required'
+    if (!formData.department) {
+      errors.department = 'Department is required'
     }
-
     return errors
   }
 
   const handleSubmit = (e) => {
     e.preventDefault()
-
     const validationErrors = validateForm(formData)
-
     if (Object.keys(validationErrors).length > 0) {
       setFormData((prevState) => ({
         ...prevState,
         errors: validationErrors,
       }))
-
       return
     }
+
+    const user = {
+      ...formData,
+      startDate: formData.startDate.toISOString().split('T')[0],
+      dateOfBirth: formData.dateOfBirth.toISOString().split('T')[0],
+    }
+
+    console.log(user)
+    dispatch(addUser(user))
   }
 
   return (
@@ -105,25 +92,27 @@ export default function RegisterForm() {
     >
       <div className="identifiers flex gap-6">
         <FloatingLabel
-          id="firstname"
+          id="firstName"
           label="First Name"
           type="text"
-          value={formData.firstname}
-          onChange={(e) => handleFieldChange(e, 'firstname')}
-          errorMessage={formData.errors.firstname}
+          value={formData.firstName}
+          onChange={(e) => handleFieldChange(e, 'firstName')}
+          errorMessage={formData.errors.firstName}
         />
 
         <FloatingLabel
-          id="lastname"
+          id="lastName"
           label="Last Name"
           type="text"
-          value={formData.lastname}
-          onChange={(e) => handleFieldChange(e, 'lastname')}
-          errorMessage={formData.errors.lastname}
+          value={formData.lastName}
+          onChange={(e) => handleFieldChange(e, 'lastName')}
+          errorMessage={formData.errors.lastName}
         />
       </div>
 
       <DatePicker
+        className="startDate"
+        label="Start Date"
         onChange={(startDate) =>
           handleFieldChange(
             { target: { name: 'startDate', value: startDate } },
@@ -134,6 +123,8 @@ export default function RegisterForm() {
       />
 
       <DatePicker
+        className="dateOfBirth"
+        label="Date of Birth"
         onChange={(date) =>
           handleFieldChange(
             { target: { name: 'dateOfBirth', value: date } },
@@ -151,6 +142,7 @@ export default function RegisterForm() {
         onChange={(e) => handleFieldChange(e, 'street')}
         errorMessage={formData.errors.street}
       />
+
       <FloatingLabel
         id="city"
         label="City"
@@ -159,37 +151,39 @@ export default function RegisterForm() {
         onChange={(e) => handleFieldChange(e, 'city')}
         errorMessage={formData.errors.city}
       />
+
       <Dropdown
         label="States"
-        items={statesNames}
+        items={dropdownData.states.map((state) => state.name)}
         onChange={(states) =>
           handleFieldChange(
-            { target: { name: 'stateSelected', value: states } },
-            'stateSelected',
+            { target: { name: 'state', value: states } },
+            'state',
           )
         }
-        errorMessage={formData.errors.stateSelected}
+        errorMessage={formData.errors.state}
       />
+
       <FloatingLabel
-        id="zipcode"
+        id="zipCode"
         label="Zip Code"
         type="number"
-        value={formData.zipcode}
-        onChange={(e) => handleFieldChange(e, 'zipcode')}
-        errorMessage={formData.errors.zipcode}
+        value={formData.zipCode}
+        onChange={(e) => handleFieldChange(e, 'zipCode')}
+        errorMessage={formData.errors.zipCode}
       />
 
       <div className="department">
         <Dropdown
           label="Department"
-          items={departmentsData}
+          items={dropdownData.departments}
           onChange={(department) =>
             handleFieldChange(
-              { target: { name: 'departmentSelected', value: department } },
-              'departmentSelected',
+              { target: { name: 'department', value: department } },
+              'department',
             )
           }
-          errorMessage={formData.errors.departmentSelected}
+          errorMessage={formData.errors.department}
         />
       </div>
 
