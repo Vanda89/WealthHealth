@@ -27,7 +27,7 @@ export default function FloatingLabel({
         onChange={onChange}
         onFocus={handleFocus}
         onBlur={handleBlur}
-        className="block px-2.5 pb-2.5 pt-3.5 w-full text-sm text-custom-gray-900 font-medium border-3 border-custom-gray-200 rounded-md appearance-none focus:outline-none focus:ring-0 focus:border-custom-green-300 peer"
+        className="block px-2.5 pb-2.5 pt-3.5 w-full text-sm text-custom-gray-900  focus:bg-white font-medium border-3 border-custom-gray-200 rounded-md appearance-none focus:outline-none focus:ring-0 focus:border-custom-green-300 peer"
       />
       <label htmlFor={id} className={labelStyle}>
         {label}

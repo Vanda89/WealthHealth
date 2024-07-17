@@ -2,15 +2,17 @@ import { Select, Option } from '@material-tailwind/react'
 import '../../styles/Dropdown.css'
 import { useState, useEffect } from 'react'
 
-export default function Dropdown({ label, items, onChange, errorMessage }) {
-  const [selectedValue, setSelectedValue] = useState('')
-
+export default function Dropdown({
+  id,
+  label,
+  items,
+  value,
+  onChange,
+  errorMessage,
+}) {
   const handleChange = (e) => {
-    const value = event.target.textContent
-    console.log(value, 'value')
+    const value = e
     const selectedItem = items.find((item) => item === value)
-
-    setSelectedValue(selectedItem ? selectedItem : value)
 
     if (onChange) {
       onChange(selectedItem ? selectedItem : value)
@@ -18,8 +20,8 @@ export default function Dropdown({ label, items, onChange, errorMessage }) {
   }
 
   return (
-    <div className="dropdown">
-      <Select label={label} value={selectedValue} onChange={handleChange}>
+    <div className={`dropdown ${id} relative w-full`}>
+      <Select label={label} value={value} onChange={handleChange}>
         {items.map((item) => {
           return (
             <Option key={item} value={item}>

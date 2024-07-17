@@ -7,16 +7,17 @@ import { LuCalendarDays } from 'react-icons/lu'
 export default function CustomDatePicker({
   className,
   label,
+  value,
   onChange,
   errorMessage,
 }) {
-  const [startDate, setStartDate] = useState(new Date())
-  const [isDateChanged, setIsDateChanged] = useState(false)
+  const [startDate, setStartDate] = useState(
+    value ? new Date(value) : new Date(),
+  )
   const datePickerRef = useRef(null)
 
   const handleChange = (date) => {
     setStartDate(date)
-    setIsDateChanged(date.getTime() !== startDate.getTime())
     onChange(date)
   }
 
@@ -30,8 +31,8 @@ export default function CustomDatePicker({
         </label>
         <DatePicker
           id="datePicker"
-          className={isDateChanged ? 'font-bold' : 'font-normal'}
-          selected={startDate}
+          className="font-bold"
+          selected={value ? new Date(value) : new Date()}
           onChange={handleChange}
           dateFormat="dd/MM/yyyy"
           placeholderText="Select date"
