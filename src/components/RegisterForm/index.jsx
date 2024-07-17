@@ -6,8 +6,9 @@ import { Select, Option } from '@material-tailwind/react'
 import { useSelector, useDispatch } from 'react-redux'
 import { addUser } from '../../store/slices/userSlice'
 
-export default function RegisterForm({ dropdownData }) {
+export default function RegisterForm({ dropdownData, onFormSubmit }) {
   const dispatch = useDispatch()
+
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -22,36 +23,72 @@ export default function RegisterForm({ dropdownData }) {
   })
 
   const handleFieldChange = (e, fieldName) => {
-    const { name, value } = e.target || { name: fieldName, value }
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
-      errors: {
-        ...prevState.errors,
-        [name]: value ? '' : prevState.errors[name],
-      },
-    }))
+    if (e.target) {
+      const { name, value } = e.target
+      setFormData((prevState) => ({
+        ...prevState,
+        [name]: value,
+        errors: {
+          ...prevState.errors,
+          [name]: value ? '' : prevState.errors[name],
+        },
+      }))
+    } else {
+      setFormData((prevState) => ({
+        ...prevState,
+        [fieldName]: e,
+        errors: {
+          ...prevState.errors,
+          [fieldName]: e ? '' : prevState.errors[fieldName],
+        },
+      }))
+    }
   }
   const validateForm = (formData) => {
     const errors = {}
     if (!formData.firstName) {
       errors.firstName = 'First name is required'
+    } else if (!/^[a-zA-Z]+$/.test(formData.firstName)) {
+      errors.firstName = 'First name can only contain letters'
+    } else if (formData.firstName.length < 3) {
+      errors.firstName = 'First name must be at least 3 characters long'
     }
+
     if (!formData.lastName) {
       errors.lastName = 'Last name is required'
+    } else if (!/^[a-zA-Z]+$/.test(formData.lastName)) {
+      errors.lastName = 'Last name can only contain letters'
+    } else if (formData.lastName.length < 3) {
+      errors.lastName = 'Last name must be at least 3 characters long'
     }
+
     if (!formData.startDate) {
       errors.startDate = 'Date of contrat beginning is required'
     }
+
     if (!formData.dateOfBirth) {
       errors.dateOfBirth = 'Date of birth is required'
+    } else {
+      const dateOfBirth = new Date(formData.dateOfBirth)
+      const currentDate = new Date()
+      const minDateOfBirth = new Date()
+      minDateOfBirth.setFullYear(currentDate.getFullYear() - 15) // Calculating the date 15 years ago
+
+      if (dateOfBirth > currentDate) {
+        errors.dateOfBirth = 'The date of birth must be in the past'
+      } else if (dateOfBirth > minDateOfBirth) {
+        errors.dateOfBirth = 'The date of birth must be at least 15 years old'
+      }
     }
+
     if (!formData.street) {
       errors.street = 'Street is required'
     }
+
     if (!formData.city) {
       errors.city = 'City is required'
     }
+
     if (!formData.state) {
       errors.state = 'State is required'
     }
@@ -64,8 +101,26 @@ export default function RegisterForm({ dropdownData }) {
     return errors
   }
 
-  const handleSubmit = (e) => {
+  const handleFormReset = () => {
+    setFormData((prevState) => ({
+      ...prevState,
+      firstName: '',
+      lastName: '',
+      startDate: '',
+      dateOfBirth: '',
+      street: '',
+      city: '',
+      state: '',
+      zipCode: '',
+      department: '',
+      errors: {},
+    }))
+  }
+
+  const handleFormSubmit = (e) => {
     e.preventDefault()
+
+    console.log(formData)
     const validationErrors = validateForm(formData)
     if (Object.keys(validationErrors).length > 0) {
       setFormData((prevState) => ({
@@ -81,13 +136,17 @@ export default function RegisterForm({ dropdownData }) {
       dateOfBirth: formData.dateOfBirth.toISOString().split('T')[0],
     }
 
-    console.log(user)
     dispatch(addUser(user))
+    handleFormReset()
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+
+    // Call onFormSubmit callback function to open the confirmation dialog modal
+    onFormSubmit()
   }
 
   return (
     <form
-      onSubmit={handleSubmit}
+      onSubmit={handleFormSubmit}
       className="flex flex-col w-full md:w-10/12 lg:w-8/12 xl:w-6/12 p-12 rounded-xl border-3 border-custom-gray-400 bg-white gap-8"
     >
       <div className="identifiers flex gap-6">
@@ -113,6 +172,7 @@ export default function RegisterForm({ dropdownData }) {
       <DatePicker
         className="startDate"
         label="Start Date"
+        value={formData.startDate}
         onChange={(startDate) =>
           handleFieldChange(
             { target: { name: 'startDate', value: startDate } },
@@ -125,6 +185,7 @@ export default function RegisterForm({ dropdownData }) {
       <DatePicker
         className="dateOfBirth"
         label="Date of Birth"
+        value={formData.dateOfBirth}
         onChange={(date) =>
           handleFieldChange(
             { target: { name: 'dateOfBirth', value: date } },
@@ -153,14 +214,11 @@ export default function RegisterForm({ dropdownData }) {
       />
 
       <Dropdown
+        id="state"
         label="States"
         items={dropdownData.states.map((state) => state.name)}
-        onChange={(states) =>
-          handleFieldChange(
-            { target: { name: 'state', value: states } },
-            'state',
-          )
-        }
+        value={formData.state}
+        onChange={(e) => handleFieldChange(e, 'state')}
         errorMessage={formData.errors.state}
       />
 
@@ -175,14 +233,11 @@ export default function RegisterForm({ dropdownData }) {
 
       <div className="department">
         <Dropdown
+          id="department"
           label="Department"
           items={dropdownData.departments}
-          onChange={(department) =>
-            handleFieldChange(
-              { target: { name: 'department', value: department } },
-              'department',
-            )
-          }
+          value={formData.department}
+          onChange={(e) => handleFieldChange(e, 'department')}
           errorMessage={formData.errors.department}
         />
       </div>
