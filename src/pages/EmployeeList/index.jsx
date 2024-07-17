@@ -3,17 +3,21 @@ import { selectUsers } from '../../store/slices/selectors'
 import { useSelector } from 'react-redux'
 import { columns } from '../../utils/columns'
 import StaffTable from '../../components/StaffTable'
+import { v4 as uuidv4 } from 'uuid'
 
 export default function EmployeeList() {
-  const users = useSelector(selectUsers)
-  console.log(users)
+  const usersWithIds = useSelector(selectUsers).map((user) => ({
+    ...user,
+    id: uuidv4(),
+  }))
+  console.log(usersWithIds)
 
   return (
     <main className=" flex flex-col items-center justify-center py-44 px-8">
       <h1 className="text-4xl text-custom-green-300 mb-24">
         Current Employees
       </h1>
-      <StaffTable columns={columns} rows={users} />
+      <StaffTable columns={columns} rows={usersWithIds} />
     </main>
   )
 }
