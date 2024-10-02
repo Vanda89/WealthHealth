@@ -6,11 +6,6 @@ import { resolve } from 'path'
 // https://vitejs.dev/config/
 export default defineConfig({
   base: '/WealthHealth/',
-  resolve: {
-    alias: {
-      '@': resolve(__dirname),
-    },
-  },
   plugins: [react()],
   server: {
     watch: {
