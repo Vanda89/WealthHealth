@@ -1,4 +1,4 @@
-import logo from '../../assets/logo/logo_wealth_health.png'
+import logo from '/assets/logo/logo_wealth_health.png'
 import { NavLink } from 'react-router-dom'
 import { ROUTES } from '../../config.js'
 
