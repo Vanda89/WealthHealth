@@ -120,7 +120,6 @@ export default function RegisterForm({ dropdownData, onFormSubmit }) {
   const handleFormSubmit = (e) => {
     e.preventDefault()
 
-    console.log(formData)
     const validationErrors = validateForm(formData)
     if (Object.keys(validationErrors).length > 0) {
       setFormData((prevState) => ({

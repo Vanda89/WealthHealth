@@ -13,12 +13,12 @@ export default function Header() {
         />
       </div>
       <nav className=" w-70">
-        <ul className="flex justify-end gap-10">
+        <ul className="flex justify-end gap-10 text-lg">
           <NavLink
             to={ROUTES.HOME}
             className={({ isActive }) =>
               isActive
-                ? 'text-custom-green-300 underline underline-offset-2 decoration-custom-green-300'
+                ? 'font-medium text-custom-green-300 underline underline-offset-2 decoration-custom-green-300'
                 : 'text-custom-gray-900 hover:text-custom-green-300'
             }
           >
@@ -29,7 +29,7 @@ export default function Header() {
             to={ROUTES.EMPLOYEE_LIST}
             className={({ isActive }) =>
               isActive
-                ? 'text-custom-green-300 underline underline-offset-2 decoration-custom-green-300'
+                ? 'font-medium text-custom-green-300 underline underline-offset-2 decoration-custom-green-300'
                 : 'text-custom-gray-900 hover:text-custom-green-300'
             }
           >

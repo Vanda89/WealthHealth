@@ -18,7 +18,6 @@ const initialState = {
 export const addUser = createAsyncThunk(
   'user/addUser',
   async (userData, thunkAPI) => {
-    console.log(userData)
     try {
       return userData
     } catch (error) {

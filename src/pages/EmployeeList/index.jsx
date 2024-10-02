@@ -10,7 +10,6 @@ export default function EmployeeList() {
     ...user,
     id: uuidv4(),
   }))
-  console.log(usersWithIds)
 
   return (
     <main className=" flex flex-col items-center justify-center py-44 px-8">

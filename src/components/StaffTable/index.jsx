@@ -1,4 +1,6 @@
 import React, { useState, useMemo } from 'react'
+import stateCodes from 'us-state-codes'
+
 import { FaMagnifyingGlass } from 'react-icons/fa6'
 import { TiArrowSortedUp, TiArrowSortedDown } from 'react-icons/ti'
 import { FaPencilAlt } from 'react-icons/fa'
@@ -51,11 +53,19 @@ export default function StaffTable({ columns, rows }) {
         })
   }, [rows, searchTerm])
 
+  const formattedData = useMemo(() => {
+    return filteredRows.map((row) => ({
+      ...row,
+      state: stateCodes.getStateCodeByStateName(row.state),
+    }))
+  }, [filteredRows])
+
+  console.log(formattedData)
+
   const sortedRows = useMemo(() => {
-    return filteredRows.sort((a, b) => {
+    return formattedData.sort((a, b) => {
       const valueA = a[sortConfig.field]
       const valueB = b[sortConfig.field]
-      console.log(valueA, valueB)
       if (valueA < valueB) {
         return sortConfig.direction === 'asc' ? -1 : 1
       }
@@ -64,7 +74,7 @@ export default function StaffTable({ columns, rows }) {
       }
       return 0
     })
-  }, [filteredRows, sortConfig])
+  }, [formattedData, sortConfig])
 
   const startIndex = (page - 1) * rowsPerPage
   const endIndex = startIndex + rowsPerPage
@@ -93,8 +103,8 @@ export default function StaffTable({ columns, rows }) {
 
   return (
     <Card className="h-full w-full shadow-none">
-      <CardHeader className=" mx-0 border-0 shadow-none flex items-center justify-between mb-8">
-        <div className="search-container w-full md:w-72 relative border rounded-md">
+      <CardHeader className=" mx-0 border-0 shadow-none flex items-center justify-between mb-8 rounded-md">
+        <div className="search-container w-full md:w-72 relative border rounded-lg">
           <label htmlFor="search" className="sr-only">
             Search
           </label>
