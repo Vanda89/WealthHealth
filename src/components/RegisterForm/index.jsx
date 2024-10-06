@@ -243,7 +243,7 @@ export default function RegisterForm({ dropdownData, onFormSubmit }) {
 
       <button
         type="submit"
-        className=" w-full md:w-32 py-3 rounded-md font-bold bg-custom-green-300 "
+        className=" w-full mx-auto md:w-32 py-3 rounded-md font-bold bg-custom-green-300 "
       >
         Save
       </button>

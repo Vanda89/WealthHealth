@@ -60,8 +60,6 @@ export default function StaffTable({ columns, rows }) {
     }))
   }, [filteredRows])
 
-  console.log(formattedData)
-
   const sortedRows = useMemo(() => {
     return formattedData.sort((a, b) => {
       const valueA = a[sortConfig.field]
@@ -76,8 +74,13 @@ export default function StaffTable({ columns, rows }) {
     })
   }, [formattedData, sortConfig])
 
+  const totalEntries = sortedRows.length
   const startIndex = (page - 1) * rowsPerPage
   const endIndex = startIndex + rowsPerPage
+
+  const lastIndex = Math.min(endIndex, totalEntries)
+  const firstIndex = startIndex + 1
+
   const currentData = sortedRows.slice(startIndex, endIndex)
 
   const handleRowsPerPageChange = (event) => {
@@ -141,7 +144,9 @@ export default function StaffTable({ columns, rows }) {
               <option value="30">30</option>
             </select>
           </div>
-          <Typography>Showing 1 to 7 of 7 entries</Typography>
+          <Typography>
+            {`Showing ${firstIndex} to ${lastIndex} of ${totalEntries} entries`}{' '}
+          </Typography>
         </div>
       </CardHeader>
       <CardBody className="border-b  rounded-md box-border p-0 shadow-md	">
