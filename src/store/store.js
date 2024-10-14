@@ -7,6 +7,14 @@ import {
 import userReducer from './slices/userSlice.js'
 import storage from 'redux-persist/lib/storage'
 import { persistReducer, persistStore } from 'redux-persist'
+import {
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from 'redux-persist/es/constants'
 
 const persistConfig = {
   key: 'root',
@@ -21,10 +29,19 @@ const rootReducer = combineReducers({
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 
+/**
+ * Create a Redux store with Redux Toolkit.
+ * The persistent reducer is used to maintain data even after a page reload.
+ * Default middlewares are applied, with serialization control disabled.
+ */
 const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({ serializableCheck: false }),
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
 })
 
 const persistor = persistStore(store)
