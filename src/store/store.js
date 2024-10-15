@@ -7,14 +7,7 @@ import {
 import userReducer from './slices/userSlice.js'
 import storage from 'redux-persist/lib/storage'
 import { persistReducer, persistStore } from 'redux-persist'
-import {
-  FLUSH,
-  REHYDRATE,
-  PAUSE,
-  PERSIST,
-  PURGE,
-  REGISTER,
-} from 'redux-persist/es/constants'
+import { PERSIST } from 'redux-persist/es/constants'
 
 const persistConfig = {
   key: 'root',
@@ -39,7 +32,7 @@ const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+        ignoredActions: [PERSIST],
       },
     }),
 })
