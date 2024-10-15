@@ -6,6 +6,7 @@ import { TiArrowSortedUp, TiArrowSortedDown } from 'react-icons/ti'
 import { FaPencilAlt } from 'react-icons/fa'
 import { HiXMark } from 'react-icons/hi2'
 import { FaChevronDown } from 'react-icons/fa'
+import { format } from 'date-fns'
 
 import {
   Card,
@@ -27,11 +28,22 @@ export default function StaffTable({ columns, rows }) {
   const [searchTerm, setSearchTerm] = useState('')
   const [page, setPage] = useState(1)
   const [rowsPerPage, setRowsPerPage] = useState(10)
-
   const [sortConfig, setSortConfig] = useState({
     direction: 'asc',
     field: 'lastName',
   })
+
+  // Helper functions for formatting dates and state abbreviations
+  const formatDate = (date) => {
+    if (!date) return ''
+    return format(new Date(date), 'dd/MM/yyyy')
+  }
+
+  const getStateAbbreviation = (stateName) => {
+    return stateCodes.getStateCodeByStateName(stateName.trim()) || stateName
+  }
+
+  // Filter, sort, and format logic
   const filteredRows = useMemo(() => {
     return searchTerm === ''
       ? rows
@@ -53,53 +65,54 @@ export default function StaffTable({ columns, rows }) {
         })
   }, [rows, searchTerm])
 
-  const formattedData = useMemo(() => {
-    return filteredRows.map((row) => ({
-      ...row,
-      state: stateCodes.getStateCodeByStateName(row.state),
-    }))
-  }, [filteredRows])
-
   const sortedRows = useMemo(() => {
-    return formattedData.sort((a, b) => {
+    return [...filteredRows].sort((a, b) => {
       const valueA = a[sortConfig.field]
       const valueB = b[sortConfig.field]
-      if (valueA < valueB) {
-        return sortConfig.direction === 'asc' ? -1 : 1
-      }
-      if (valueA > valueB) {
-        return sortConfig.direction === 'asc' ? 1 : -1
-      }
-      return 0
-    })
-  }, [formattedData, sortConfig])
 
-  const totalEntries = sortedRows.length
+      return sortConfig.direction === 'asc'
+        ? valueA.localeCompare(valueB)
+        : valueB.localeCompare(valueA)
+    })
+  }, [filteredRows, sortConfig])
+
+  const formattedData = useMemo(() => {
+    return sortedRows.map((row) => ({
+      ...row,
+      startDate: formatDate(row.startDate),
+      dateOfBirth: formatDate(row.dateOfBirth),
+      state: getStateAbbreviation(row.state),
+    }))
+  }, [sortedRows])
+
+  // Pagination
+  const totalEntries = formattedData.length
   const startIndex = (page - 1) * rowsPerPage
   const endIndex = startIndex + rowsPerPage
 
   const lastIndex = Math.min(endIndex, totalEntries)
   const firstIndex = startIndex + 1
 
-  const currentData = sortedRows.slice(startIndex, endIndex)
+  // Main array of data sorted and formatted
+  const currentData = formattedData.slice(startIndex, endIndex)
 
+  // Handlers for pagination
   const handleRowsPerPageChange = (event) => {
     setRowsPerPage(Number(event.target.value))
     setPage(1)
   }
-
   const handlePreviousPage = () => {
     if (page > 1) {
       setPage(page - 1)
     }
   }
-
   const handleNextPage = () => {
     if (page < Math.ceil(filteredRows.length / rowsPerPage)) {
       setPage(page + 1)
     }
   }
 
+  // Handler for Search
   const handleClearSearch = () => {
     setSearchTerm('')
   }
@@ -233,7 +246,7 @@ export default function StaffTable({ columns, rows }) {
           Previous
         </Button>
 
-        <Button className="bg-custom-gray-400 text-custom-gray-900 py-3.5 px-5 border-2 border-custom-gray-400 focus:border-custom-gray-900 hover:border-custom-gray-900 hover:bg-custom-gray-900 hover:text-white ">
+        <Button className="bg-custom-gray-400 text-custom-gray-900 py-3.5 px-5 border-2 border-custom-gray-400 cursor-default shadow-none hover:shadow-none ">
           {page}
         </Button>
 
