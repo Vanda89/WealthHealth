@@ -21,7 +21,12 @@ export default function Dropdown({
 
   return (
     <div className={`dropdown ${id} relative w-full`}>
-      <Select label={label} value={value} onChange={handleChange}>
+      <Select
+        label={label}
+        aria-label={label}
+        value={value}
+        onChange={handleChange}
+      >
         {items.map((item) => {
           return (
             <Option key={item} value={item}>

@@ -7,6 +7,7 @@ import { LuCalendarDays } from 'react-icons/lu'
 export default function CustomDatePicker({
   className,
   label,
+  htmlFor,
   value,
   onChange,
   errorMessage,
@@ -26,11 +27,11 @@ export default function CustomDatePicker({
   return (
     <div className={`date ${className}`}>
       <div className="dateContainer flex relative">
-        <label htmlFor="datePicker" className={` ${labelStyle}`}>
+        <label htmlFor={htmlFor} className={` ${labelStyle}`}>
           {label}
         </label>
         <DatePicker
-          id="datePicker"
+          id={htmlFor}
           className="font-bold"
           selected={value ? new Date(value) : new Date()}
           onChange={handleChange}

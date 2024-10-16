@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from 'react'
 
 export default function Modal({
   isOpen,
-  isHidden,
   onClose,
   closeIcon: CloseIcon,
   infoIcon: InfoIcon,
@@ -38,11 +37,12 @@ export default function Modal({
           role="dialog"
           aria-modal="true"
           aria-labelledby="modal-title"
-          aria-hidden={isHidden}
+          aria-hidden={!isOpen}
           tabIndex={-1}
         >
           <div
             className="backdrop fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+            onClick={onClose}
             aria-hidden="true"
           ></div>
 
@@ -50,7 +50,7 @@ export default function Modal({
             <div className="flex min-h-full items-center justify-center  text-center sm:items-center ">
               <div
                 ref={modalRef}
-                className="relative  transform overflow-hidden w-full transform-all sm:max-w-xl px-5 md:px-8 pt-5 pb-4 sm:pt-8 bg-white rounded-lg shadow"
+                className="relative transform overflow-hidden w-full transform-all sm:max-w-xl px-5 md:px-8 pt-5 pb-4 sm:pt-8 bg-white rounded-lg shadow"
               >
                 <div className="flex flex-col gap-6 md:gap-10">
                   <div className="hidden sm:block absolute top-4 right-6 ">

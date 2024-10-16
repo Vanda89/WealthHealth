@@ -4,7 +4,7 @@ module.exports = withMT({
   content: [
     './src/**/*.{js,jsx,ts,tsx}',
     './public/index.html',
-    './src/styles/**/*.{css}',
+    './src/styles/**/*.css',
   ],
   theme: {
     extend: {
@@ -17,6 +17,7 @@ module.exports = withMT({
         white: '#FFFFFF',
         'green-page-background': '#FEFFF9',
         'custom-green-300': '#859A18',
+        'custom-green-700': '#436200',
         'input-focus': '#E8F0FE',
       },
       borderWidth: {

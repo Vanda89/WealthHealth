@@ -21,7 +21,6 @@ export default function Home() {
       <RegisterForm dropdownData={data} onFormSubmit={handleFormSubmit} />
       <Modal
         isOpen={isOpen}
-        isHidden={true}
         onClose={handleCloseModal}
         closeIcon={FaXmark}
         infoIcon={FaCheck}

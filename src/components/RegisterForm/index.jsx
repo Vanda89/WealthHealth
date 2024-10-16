@@ -22,9 +22,16 @@ export default function RegisterForm({ dropdownData, onFormSubmit }) {
     errors: {},
   })
 
+  /**
+   * Generic handler for field changes, accepts event or direct value, updates form state and validates errors.
+   *
+   * @param {React.SyntheticEvent<HTMLInputElement> | string} e - Synthetic event from input or direct value.
+   * @param {string} fieldName - Name of the field to update.
+   */
   const handleFieldChange = (e, fieldName) => {
     if (e.target) {
       const { name, value } = e.target
+
       setFormData((prevState) => ({
         ...prevState,
         [name]: value,
@@ -44,6 +51,7 @@ export default function RegisterForm({ dropdownData, onFormSubmit }) {
       }))
     }
   }
+
   const validateForm = (formData) => {
     const errors = {}
     if (!formData.firstName) {
@@ -171,6 +179,7 @@ export default function RegisterForm({ dropdownData, onFormSubmit }) {
       <DatePicker
         className="startDate"
         label="Start Date"
+        htmlFor="startDate"
         value={formData.startDate}
         onChange={(startDate) =>
           handleFieldChange(
@@ -184,6 +193,7 @@ export default function RegisterForm({ dropdownData, onFormSubmit }) {
       <DatePicker
         className="dateOfBirth"
         label="Date of Birth"
+        htmlFor="dateOfBirth"
         value={formData.dateOfBirth}
         onChange={(date) =>
           handleFieldChange(
@@ -244,6 +254,7 @@ export default function RegisterForm({ dropdownData, onFormSubmit }) {
       <button
         type="submit"
         className=" w-full mx-auto md:w-32 py-3 rounded-md font-bold bg-custom-green-300 "
+        aria-label="Save button"
       >
         Save
       </button>
