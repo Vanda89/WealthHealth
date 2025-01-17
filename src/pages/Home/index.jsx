@@ -1,5 +1,5 @@
 import RegisterForm from '../../components/RegisterForm'
-import Modal from '../../../node_modules/modal-reactjs-tailwindcss'
+import Modal from 'modal-reactjs-tailwindcss'
 import { data } from '../../utils/dropdownData'
 import { useState } from 'react'
 import { FaCheck } from 'react-icons/fa'

@@ -13,7 +13,7 @@ export default function EmployeeList() {
 
   return (
     <main className=" flex flex-col items-center justify-center py-44 px-8">
-      <h1 className="text-4xl text-custom-green-300 mb-24">
+      <h1 className="text-5xl text-custom-green-300 mb-24">
         Current Employees
       </h1>
       <StaffTable columns={columns} rows={usersWithIds} />

@@ -1,5 +1,5 @@
 {
-  "name": "wealthhealth",
+  "name": "wealth-health",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -10,7 +10,7 @@
     "preview": "vite preview",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
-    "tests": "npx vitest"
+    "test": "npx vitest"
   },
   "dependencies": {
     "@material-tailwind/react": "^2.1.9",

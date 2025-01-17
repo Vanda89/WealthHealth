@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react'
 import FloatingLabel from '../../components/FloatingLabel'
 import DatePicker from '../../components/Datepicker'
 import Dropdown from '../../components/Dropdown'
-import { Select, Option } from '@material-tailwind/react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { addUser } from '../../store/slices/userSlice'
 
 export default function RegisterForm({ dropdownData, onFormSubmit }) {
@@ -144,6 +143,7 @@ export default function RegisterForm({ dropdownData, onFormSubmit }) {
     }
 
     dispatch(addUser(user))
+
     handleFormReset()
     window.scrollTo({ top: 0, behavior: 'smooth' })
 

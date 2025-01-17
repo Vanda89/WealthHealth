@@ -29,7 +29,7 @@ module.exports = withMT({
         '3xs': '.4rem',
       },
       height: {
-        13: '3.25rem',
+        12.5: '3.125rem',
       },
     },
     fontFamily: {
