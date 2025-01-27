@@ -5,7 +5,7 @@ import { resolve } from 'path'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/WealthHealth/',
+  base: './',
   plugins: [react()],
   server: {
     watch: {
@@ -24,5 +24,6 @@ export default defineConfig({
   },
   build: {
     sourcemap: true,
+    outDir: 'dist',
   },
 })
